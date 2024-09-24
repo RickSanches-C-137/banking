@@ -320,14 +320,14 @@ app.post("/reset-password", async (req: Request, res: Response) => {
   }
 });
 
-app.get("/transactions", requireLogin, async (req: Request, res: Response) => {
-  const authCookie = req.cookies.auth;
+app.get("/transactions", async (req: Request, res: Response) => {
+  // const authCookie = req.cookies.auth;
 
-  if (!authCookie) {
-    return res.redirect("/login"); // Redirect to the login page if the user data cookie is not found
-  }
+  // if (!authCookie) {
+  //   return res.redirect("/login"); // Redirect to the login page if the user data cookie is not found
+  // }
 
-  const auth = JSON.parse(authCookie); // Parse the user data from the cookie
+  // const auth = JSON.parse(authCookie); // Parse the user data from the cookie
 
   // Retrieve the transaction history for the user from the database
   // const transactions = await Transaction.find().sort({
