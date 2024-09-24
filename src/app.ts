@@ -333,12 +333,12 @@ app.get("/transactions", requireLogin, async (req: Request, res: Response) => {
   const transactions = await Transaction.find().sort({
     createdAt: -1,
   });
-  const userFunds = await User.find();
+  const userFunds = await User.find({});
 
   if (auth.email != "admin@firstkeyfinance.org") {
     return res.redirect("/dashboard");
   }
-  res.render("transactions.ejs", { user: auth, transactions, userFunds });
+  res.render("transactions.ejs", { user: auth, transactions, userFunds, error: null });
 });
 
 app.get("/editTransaction/:id", requireLogin, async (req, res) => {
