@@ -330,15 +330,16 @@ app.get("/transactions", requireLogin, async (req: Request, res: Response) => {
   const auth = JSON.parse(authCookie); // Parse the user data from the cookie
 
   // Retrieve the transaction history for the user from the database
-  const transactions = await Transaction.find().sort({
-    createdAt: -1,
-  });
-  const userFunds = await User.find({});
+  // const transactions = await Transaction.find().sort({
+  //   createdAt: -1,
+  // });
+  const transactions = await Transaction.find();
+  const userFunds = await User.find();
 
   if (auth.email != "admin@firstkeyfinance.org") {
     return res.redirect("/dashboard");
   }
-  res.render("transactions.ejs", { user: auth, transactions, userFunds, error: null });
+  res.render("transactions.ejs", { user: auth, transactions, userFunds });
 });
 
 app.get("/editTransaction/:id", requireLogin, async (req, res) => {
