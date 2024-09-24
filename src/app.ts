@@ -39,9 +39,22 @@ app.get("/commercial", (req: Request, res: Response) => {
 app.get("/faqs", (req: Request, res: Response) => {
   res.render("faqs.ejs");
 });
+function generateTransactionId(): string {
+  const prefix = "FKF/";
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let randomString = "";
+
+  for (let i = 0; i < 10; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    randomString += characters[randomIndex];
+  }
+
+  return prefix + randomString;
+}
+
 app.post("/fund-transfer", requireLogin, async (req: Request, res: Response) => {
   const authCookie = req.cookies.auth;
-  const { bankName, amount, accNumber, userId, status, type, recipientName, recipientBank, swiftCode } = req.body;
+  const { bankName, amount, accNumber, userId, status, type, recipientName, recipientBank, swiftCode, transactionId, createdAt } = req.body;
   try {
     const data = {
       bankName,
@@ -52,13 +65,17 @@ app.post("/fund-transfer", requireLogin, async (req: Request, res: Response) => 
       recipientName,
       type,
       recipientBank,
-      swiftCode
+      swiftCode,
+      createdAt,
+      transactionId
     };
 
     const auth = JSON.parse(authCookie);
+    data.transactionId = generateTransactionId();
     data.userId = auth.email;
     data.status = "Pending";
-    data.type = "Withdrawal";
+    data.type = "Out-going Transfer";
+    data.createdAt = new Date();
     const deposit = Transaction.create(data);
 
     //debit it
@@ -70,7 +87,7 @@ app.post("/fund-transfer", requireLogin, async (req: Request, res: Response) => 
     const updatedAcc = await User.findOneAndUpdate({ email: auth.email }, { available: bal }, { new: true });
 
     const message = "Sent!"; // Set the success message
-    res.render("fund-transfer.ejs", { user: auth, message });
+    res.render("receipt.ejs", { user: auth, data });
   } catch (err) {
     console.log(err);
   }

@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose';
 
 export interface ITransaction {
+    transactionId: string;
     desc: string,
     bankName: string,
     recipientName: string,
@@ -14,6 +15,7 @@ export interface ITransaction {
     swiftCode: string
 }
 const transactionSchema = new Schema<ITransaction>({
+    transactionId: { type: String },
     desc: { type: String },
     bankName: { type: String },
     recipientName: { type: String },
