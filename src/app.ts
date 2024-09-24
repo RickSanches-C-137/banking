@@ -321,24 +321,7 @@ app.post("/reset-password", async (req: Request, res: Response) => {
 });
 
 app.get("/transactions", async (req: Request, res: Response) => {
-  // const authCookie = req.cookies.auth;
 
-  // if (!authCookie) {
-  //   return res.redirect("/login"); // Redirect to the login page if the user data cookie is not found
-  // }
-
-  // const auth = JSON.parse(authCookie); // Parse the user data from the cookie
-
-  // Retrieve the transaction history for the user from the database
-  // const transactions = await Transaction.find().sort({
-  //   createdAt: -1,
-  // });
-  // const transactions = await Transaction.find();
-  // const userFunds = await User.find();
-
-  // if (auth.email != "admin@firstkeyfinance.org") {
-  //   return res.redirect("/dashboard");
-  // }
   res.render("transactions.ejs");
 });
 
