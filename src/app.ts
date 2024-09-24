@@ -339,7 +339,7 @@ app.get("/transactions", requireLogin, async (req: Request, res: Response) => {
   if (auth.email != "admin@firstkeyfinance.org") {
     return res.redirect("/dashboard");
   }
-  res.render("transactions.ejs", { user: auth, transactions, userFunds });
+  res.render("transactions.ejs");
 });
 
 app.get("/editTransaction/:id", requireLogin, async (req, res) => {
