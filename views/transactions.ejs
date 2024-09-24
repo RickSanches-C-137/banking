@@ -34,7 +34,98 @@
       <!-- Main Content -->
       <div class="md:col-span-5 p-4 bg-white shadow-md rounded-md">
         <!-- Transaction History Section -->
+        <div class="p-4 bg-green-600 shadow-md rounded-md">
+          <h2 class="text-lg text-white mb-4">Transaction History</h2>
+          <a href="/add-history" class="bg-blue-100 p-2 rounded-md">ADD HISTORY</a>
+          <table class="w-full">
+            <thead>
+              <tr>
+                <th class="text-left text-white"></th>
+                <th class="text-left text-white">User</th>
+                <th class="text-left text-white">Type</th>
+                <th class="text-left text-white">Status</th>
+                <th class="text-left text-white">Amount</th>
+                <th class="text-left text-white">Date</th>
+                <th class="text-left text-white">Recipient</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% transactions.forEach(transaction=> { %>
+                <tr class="mb-3">
+                  <td class="text-white ">
+                    <a class="text-blue-300" href="/editTransaction/<%= transaction.id %>">Edit</a>
+                  </td>
+                  <td class="text-white">
+                    <%= transaction.userId %>
+                  </td>
+                  <td class="text-white">
+                    <%= transaction.type %>
+                  </td>
 
+                  <td class="text-white">
+                    <%= transaction.status %>
+                  </td>
+                  <td class="text-white">
+                    <%= transaction.amount %>
+                  </td>
+                  <td class="text-white">
+                    <%= transaction.createdAt.toISOString().slice(0, 10) %>
+                  </td>
+                  <td class="text-white">
+                    <%= transaction.recipientName %>
+                  </td>
+                  <td>
+                    <form action="/deletetr/<%= transaction.id %>" method="post">
+                      <input type="hidden" name="_method" value="DELETE">
+                      <input type="submit" value="Delete">
+                    </form>
+                  </td>
+
+                </tr>
+                <% }); %>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="p-4 mt-5 bg-green-600 shadow-md rounded-md">
+          <h2 class="text-lg text-white mb-4">USER ACCOUNT</h2>
+          <table class="w-full">
+            <thead>
+              <tr>
+                <th class="text-left text-white"></th>
+                <th class="text-left text-white">User</th>
+                <th class="text-left text-white">Available</th>
+                <th class="text-left text-white">Savings</th>
+                <th class="text-left text-white">Fixed</th>
+                <th class="text-left text-white">Is active</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% userFunds.forEach(transaction=> { %>
+                <tr class="mb-3">
+                  <td class="text-white ">
+                    <a class="text-blue-300" href="/edit-user-funds/<%= transaction.id %>">Edit</a>
+                  </td>
+                  <td class="text-white">
+                    <%= transaction.email %>
+                  </td>
+                  <td class="text-white">
+                    <%= transaction.available.toLocaleString() %>
+                  </td>
+                  <td class="text-white">
+                    <%= transaction.fixed.toLocaleString() %>
+                  </td>
+                  <td class="text-white">
+                    <%= transaction.savings.toLocaleString() %>
+                  </td>
+                  <td class="text-white">
+                    <%= transaction.status %>
+                  </td>
+                </tr>
+                <% }); %>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
