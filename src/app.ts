@@ -40,7 +40,7 @@ app.get("/faqs", (req: Request, res: Response) => {
   res.render("faqs.ejs");
 });
 function generateTransactionId(): string {
-  const prefix = "FKF/";
+  const prefix = "FKF-";
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   let randomString = "";
 
@@ -160,6 +160,15 @@ app.get("/fund-transfer", requireLogin, async (req: Request, res: Response) => {
 
 });
 
+app.get("/receipt/:transactionId", requireLogin, async (req: Request, res: Response) => {
+  const authCookie = req.cookies.auth;
+  const trxId = req.params.transactionId;
+  console.log(trxId)
+  const auth = JSON.parse(authCookie);
+  const data = await Transaction.findOne({ transactionId: trxId })
+
+  res.render("receipt.ejs", { user: auth, data })
+})
 app.get("/history", requireLogin, async (req: Request, res: Response) => {
   const authCookie = req.cookies.auth;
 
